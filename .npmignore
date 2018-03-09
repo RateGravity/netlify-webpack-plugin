@@ -1,0 +1,8 @@
+# build files
+.babelrc
+.nvmrc
+gulpfile.js
+yarn.lock
+
+# non-compiled src
+src/

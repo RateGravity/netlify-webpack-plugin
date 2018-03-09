@@ -2,8 +2,19 @@
   "name": "netlify-webpack-plugin",
   "version": "0.0.1",
   "description": "Webpack Plugin for Netlify",
-  "main": "./dist/index.js",
+  "main": "./dist/plugin.js",
   "repository": "https://github.com/RateGravity/netlify-webpack-plugin.git",
   "author": "RateGravity <dev@rategravity.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "gulp": "gulp"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1"
+  }
 }
