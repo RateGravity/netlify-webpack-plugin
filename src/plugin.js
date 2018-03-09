@@ -1,3 +1,5 @@
+import tomlify from 'tomlify';
+
 class NetlifyPlugin {
 
     constructor(configuration) {
@@ -5,7 +7,15 @@ class NetlifyPlugin {
     }
   
     apply(compiler) {
-    
+      compiler.plugin('emit', (compilation, callback) => {
+      const tomlFile = tomlify(this.configuration);
+      
+      compilation.assets['netlify.toml'] = {
+        source: () => tomlFile,
+        size: () => tomlFile.length
+      }
+      callback();
+    })
     }
 
 }

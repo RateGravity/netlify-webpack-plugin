@@ -7,14 +7,21 @@
   "author": "RateGravity <dev@rategravity.com>",
   "license": "MIT",
   "scripts": {
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "test": "mocha --require babel-register"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
-    "gulp-babel": "^7.0.1"
+    "gulp-babel": "^7.0.1",
+    "mocha": "^5.0.4",
+    "should": "^13.2.1"
+  },
+  "dependencies": {
+    "tomlify": "^0.2.2"
   }
 }
