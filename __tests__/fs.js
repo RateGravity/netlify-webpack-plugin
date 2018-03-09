@@ -1,4 +1,3 @@
-import should from 'should';
 import fs from '../src/fs';
 
 describe('the webpack file system', () => {
@@ -23,16 +22,14 @@ describe('the webpack file system', () => {
     });
   })
   
-  it('has files that exist', () => {
-    return fileSystem.exists('/index.html').then(b => b.should.be.true());
-  })
-  
   it('doesnt have files that dont exist', () => {
-    return fileSystem.exists('/logo.png').then(b => b.should.be.false());
+    expect.assertions(1);
+    return fileSystem.get('/logo.png').catch(err => expect(err).toBeDefined());
   })
   
   it('gets files that exist', () => {
-    return fileSystem.get('/index.js').then(b => b.should.be.equal(
+    expect.assertions(1);
+    return fileSystem.get('/index.js').then(b => expect(b).toEqual(
       '+function(){return 1;}()'
     ))
   })

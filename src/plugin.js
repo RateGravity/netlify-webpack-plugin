@@ -1,5 +1,6 @@
 import tomlify from 'tomlify';
 import fs from './fs';
+import devServer from './dev-server';
 
 // Given a configuration writes it out as a netlify.toml file
 // Hooks into Wepback dev server to support the redirects and headers
@@ -20,7 +21,7 @@ class NetlifyPlugin {
         callback();
       });
       
-      fs(compiler);
+      devServer(compiler, this.configuration, fs(compiler));
       
     }
 

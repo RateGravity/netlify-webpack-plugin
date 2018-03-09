@@ -12,8 +12,12 @@ export default (compiler) => {
   ));
   
   return {
-    exists: fileName => files.then(({[fileName]: file}) => !!file),
-    get: fileName => files.then(({[fileName]: file}) => file())
+    get: fileName => files.then(({[fileName]: file}) => {
+      if (!file) {
+        throw new Error('File Not Found!');
+      }
+      return file()
+    })
   }
   
 }
