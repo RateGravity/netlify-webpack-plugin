@@ -1,0 +1,9 @@
+{
+  "name": "netlify-webpack-plugin",
+  "version": "0.0.1",
+  "description": "Webpack Plugin for Netlify",
+  "main": "./dist/index.js",
+  "repository": "https://github.com/RateGravity/netlify-webpack-plugin.git",
+  "author": "RateGravity <dev@rategravity.com>",
+  "license": "MIT"
+}
