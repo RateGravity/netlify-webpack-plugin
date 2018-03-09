@@ -9,7 +9,7 @@ gulp.task('build', () => (
 ));
 
 gulp.task('clean', () => {
-  del('./dist');
+  return del('./dist');
 });
 
 gulp.task('default', [ 'clean', 'build' ]);

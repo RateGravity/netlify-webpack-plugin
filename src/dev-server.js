@@ -59,12 +59,21 @@ const doRedirect = (fs, app, {
       );
     } else {
       fetch(
-        `${newTarget}?${querystring.stringify(req.query)}`,
+        `${newTarget}${
+          req.query ? `?${querystring.stringify(req.query)}` : ''
+        }`,
         {
           method: req.method,
-          headers: req.headers,
-          body: req
-        }).then(
+          headers: {
+            ...req.headers,
+            ...headers
+          },
+          body: (
+            req.method.toUpperCase() === 'HEAD' ||
+            req.method.toUpperCase() === 'GET'
+          ) ? undefined : req
+        }
+      ).then(
           result => {
             result.headers.forEach(
               (v,n) => res.header(n,v)
