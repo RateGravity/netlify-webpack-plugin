@@ -6,4 +6,4 @@ yarn.lock
 
 # non-compiled src
 src/
-__tests__/
+__*__/

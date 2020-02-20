@@ -1,15 +1,22 @@
 const gulp = require('gulp');
-const del = require('del')
-const babel = require('gulp-babel');
+const del = require('del');
+const { createProject } = require('gulp-typescript');
+const tsProject = createProject('tsconfig.json', { noEmit: false });
 
-gulp.task('build', () => (
-  gulp.src('src/**/*.js')
-    .pipe(babel())
-    .pipe(gulp.dest('dist'))
-));
+const build = () =>
+  gulp
+    .src(['src/**/*.ts', '!**/__*__/**'], { nodir: true })
+    .pipe(tsProject())
+    .pipe(gulp.dest('dist'));
 
-gulp.task('clean', () => {
+const clean = () => {
   return del('./dist');
-});
+};
 
-gulp.task('default', [ 'clean', 'build' ]);
+const defaultTasks = gulp.series(clean, build);
+
+module.exports = {
+  build,
+  clean,
+  default: defaultTasks
+};

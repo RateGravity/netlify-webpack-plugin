@@ -1,9 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const NetlifyPlugin = require('../dist/plugin');
+const { NetlifyHeaders, NetlifyRedirects } = require('../dist/index');
 
 module.exports = {
-  entry: path.resolve(__dirname,'./index.js'),
+  entry: path.resolve(__dirname, './index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[hash].js',
@@ -14,8 +14,8 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: 'raw-loader'
-      },
+        use: 'babel-loader'
+      }
     ]
   },
   devServer: {
@@ -24,32 +24,25 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin(),
-    new NetlifyPlugin({
-      headers: [
-        {
-          'for': '/*',
-          values: {
-            'x-from': 'netlify-test'
-          }
-        }
-      ],
-      redirects: [
-        {
-          from: '/netlify/*',
-          to: 'https://www.netlify.com/docs/:splat',
-          force: true
-        },
-        {
-          from: '/pass-through/*',
-          to: 'https://www.netlify.com/docs/:splat',
-          status: 200
-        },
-        {
-          from: '/*',
-          to: '/index.html',
-          status: 200
-        }
-      ]
-    })
+    new NetlifyHeaders({
+      'x-from': 'netlify-test'
+    }),
+    new NetlifyRedirects([
+      {
+        from: '/netlify/*',
+        to: 'https://www.netlify.com/docs/:splat',
+        status: '200!'
+      },
+      {
+        from: '/pass-through/*',
+        to: 'https://www.netlify.com/docs/:splat',
+        status: 200
+      },
+      {
+        from: '/*',
+        to: '/index.html',
+        status: 200
+      }
+    ])
   ]
-}
+};
