@@ -1,4 +1,10 @@
 language: node_js
+branches:
+  only:
+  - master
+  - "/^v\\d+\\.\\d+(\\.\\d+)?(-\\S*)?$/"
 script:
-- yarn test
-- yarn build
+  - yarn type-check
+  - yarn lint
+  - yarn test
+  - yarn build
