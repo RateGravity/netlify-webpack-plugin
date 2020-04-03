@@ -1,6 +1,6 @@
-import { Compiler } from "webpack";
-import { createHeaderFile, Headers } from "./headers";
-import { createRedirectFile, Redirect } from "./redirects";
+import { Compiler } from 'webpack';
+import { createHeaderFile, Headers } from './headers';
+import { createRedirectFile, Redirect } from './redirects';
 
 export interface NetlifyPluginConfiguration {
   /**
@@ -22,17 +22,17 @@ export class NetlifyPlugin {
   }
 
   public apply(compiler: Compiler): void {
-    compiler.hooks.emit.tap("NetlifyPlugin", compilation => {
+    compiler.hooks.emit.tap('NetlifyPlugin', (compilation) => {
       if (this.configuration.headers) {
         const headersFile = createHeaderFile(this.configuration.headers);
-        compilation.assets["_headers"] = {
+        compilation.assets._headers = {
           source: () => headersFile,
           size: () => headersFile.length
         };
       }
       if (this.configuration.redirects) {
         const redirects = createRedirectFile(this.configuration.redirects);
-        compilation.assets["_redirects"] = {
+        compilation.assets._redirects = {
           source: () => redirects,
           size: () => redirects.length
         };

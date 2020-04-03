@@ -1,0 +1,53 @@
+{
+    "extends": ["tslint:recommended", "tslint-config-prettier"],
+    "env": {
+      "es6": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "rulesDirectory": ["tslint-plugin-prettier"],
+    "rules": {
+      "arrow-parens": true,
+      "interface-name": false,
+      "match-default-export-name": false,
+      "no-default-export": true,
+      "radix": false,
+      "object-literal-sort-keys": false,
+      "ordered-imports": [
+        true,
+        {
+          "import-sources-order": "case-insensitive",
+          "groups": [
+            {
+              "name": "Libraries",
+              "match": "^(@|\\w)",
+              "order": 1
+            },
+            {
+              "name": "Parent Folders",
+              "match": "^\\.\\.",
+              "order": 2
+            }
+          ],
+          "named-imports-order": "case-insensitive"
+        }
+      ],
+      "prettier": true,
+      "prettier/prettier": ["error"],
+      "quotemark": [true, "avoid-escape", "single", "jsx-double"],
+      "trailing-comma": [
+        true,
+        {
+          "multiline": "never",
+          "singleline": "never"
+        }
+      ],
+      "no-console": false
+    }
+  }

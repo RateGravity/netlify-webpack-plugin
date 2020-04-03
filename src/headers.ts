@@ -1,15 +1,10 @@
-type SimpleHeaderValue = string | String | number | Number;
+type SimpleHeaderValue = string | number;
 type ParameterizedHeaderValue = [
   SimpleHeaderValue,
-  (
-    | { [token: string]: SimpleHeaderValue | boolean | Boolean }
-    | SimpleHeaderValue[]
-  )
+  { [token: string]: SimpleHeaderValue | boolean } | SimpleHeaderValue[]
 ];
 type SingleValueHeader = ParameterizedHeaderValue | SimpleHeaderValue;
-type MultiValueHeader =
-  | SingleValueHeader[]
-  | { [key: string]: SingleValueHeader | boolean | Boolean };
+type MultiValueHeader = SingleValueHeader[] | { [key: string]: SingleValueHeader | boolean };
 
 /**
  * Headers can be either single or multi-valued.
@@ -27,43 +22,33 @@ export type HeaderValue = MultiValueHeader | SingleValueHeader;
 
 function isSimpleHeaderValue(value: HeaderValue): value is SimpleHeaderValue {
   return (
-    typeof value === "string" ||
-    typeof value === "number" ||
+    typeof value === 'string' ||
+    typeof value === 'number' ||
     value instanceof String ||
     value instanceof Number
   );
 }
 
-function isBoolean(value: unknown): value is boolean | Boolean {
-  return typeof value === "boolean" || value instanceof Boolean;
+function isBoolean(value: unknown): value is boolean {
+  return typeof value === 'boolean' || value instanceof Boolean;
 }
 
-function isParameterizedHeaderValue(
-  value: HeaderValue
-): value is ParameterizedHeaderValue {
+function isParameterizedHeaderValue(value: HeaderValue): value is ParameterizedHeaderValue {
   if (Array.isArray(value) && value.length === 2) {
     const [parameterValue, tokens] = value;
-    if (
-      isSimpleHeaderValue(parameterValue) &&
-      tokens !== null &&
-      typeof tokens === "object"
-    ) {
+    if (isSimpleHeaderValue(parameterValue) && tokens !== null && typeof tokens === 'object') {
       if (Array.isArray(tokens)) {
-        return tokens.every(v => isSimpleHeaderValue(v));
+        return tokens.every((v) => isSimpleHeaderValue(v));
       }
-      return Object.values(tokens).every(
-        v => isBoolean(v) || isSimpleHeaderValue(v)
-      );
+      return Object.values(tokens).every((v) => isBoolean(v) || isSimpleHeaderValue(v));
     }
   }
   return false;
 }
 
-function writeParameterizedHeaderValue(
-  value: ParameterizedHeaderValue
-): string {
+function writeParameterizedHeaderValue(value: ParameterizedHeaderValue): string {
   const tokenStrings = Array.isArray(value[1])
-    ? value[1].map(v => `${v}`)
+    ? value[1].map((v) => `${v}`)
     : Object.entries(value[1])
         .map(([key, v]) => {
           if (isBoolean(v)) {
@@ -71,20 +56,15 @@ function writeParameterizedHeaderValue(
           }
           return `${key}=${v}`;
         })
-        .filter(v => v != null);
-  return `${value[0]}${
-    tokenStrings.length > 0 ? `; ${tokenStrings.join("; ")}` : ""
-  }`;
+        .filter((v) => v != null);
+  return `${value[0]}${tokenStrings.length > 0 ? `; ${tokenStrings.join('; ')}` : ''}`;
 }
 
 function isSingleValueHeader(value: HeaderValue): value is SingleValueHeader {
   return isParameterizedHeaderValue(value) || isSimpleHeaderValue(value);
 }
 
-function writeSingleValueHeader(
-  header: string,
-  value: SingleValueHeader
-): string {
+function writeSingleValueHeader(header: string, value: SingleValueHeader): string {
   const headerValue = isSimpleHeaderValue(value)
     ? `${value}`
     : writeParameterizedHeaderValue(value);
@@ -92,36 +72,29 @@ function writeSingleValueHeader(
 }
 
 function isMultiValueHeader(value: HeaderValue): value is MultiValueHeader {
-  if (value != null && typeof value === "object") {
+  if (value != null && typeof value === 'object') {
     if (Array.isArray(value)) {
       return value.every((v: HeaderValue) => isSingleValueHeader(v));
     } else {
-      return Object.values(value).every(
-        v => isBoolean(v) || isSingleValueHeader(v)
-      );
+      return Object.values(value).every((v) => isBoolean(v) || isSingleValueHeader(v));
     }
   }
   return false;
 }
 
-function writeMultiValueHeader(
-  header: string,
-  value: MultiValueHeader
-): string[] {
+function writeMultiValueHeader(header: string, value: MultiValueHeader): string[] {
   return Array.isArray(value)
-    ? value.map(v => writeSingleValueHeader(header, v))
+    ? value.map((v) => writeSingleValueHeader(header, v))
     : Object.keys(value)
-        .map(key => {
+        .map((key) => {
           const v = value[key];
           if (isBoolean(v)) {
             return v ? key : null;
           }
-          return `${key}=${
-            isSimpleHeaderValue(v) ? v : writeParameterizedHeaderValue(v)
-          }`;
+          return `${key}=${isSimpleHeaderValue(v) ? v : writeParameterizedHeaderValue(v)}`;
         })
         .filter((v): v is string => v != null)
-        .map(v => writeSingleValueHeader(header, v));
+        .map((v) => writeSingleValueHeader(header, v));
 }
 
 function writeHeaders(header: string, value: HeaderValue): string[] {
@@ -140,9 +113,9 @@ export type Header = { [header: string]: HeaderValue };
 
 export const createHeaderFile = (headers: Headers): string =>
   Object.keys(headers)
-    .map(path => {
+    .map((path) => {
       const headerValues = Object.keys(headers[path])
-        .map(header => writeHeaders(header, headers[path][header]))
+        .map((header) => writeHeaders(header, headers[path][header]))
         .reduce((acc, next) => {
           acc.push(...next);
           return acc;
@@ -156,4 +129,4 @@ export const createHeaderFile = (headers: Headers): string =>
       acc.push(...next);
       return acc;
     }, [])
-    .join("\n");
+    .join('\n');

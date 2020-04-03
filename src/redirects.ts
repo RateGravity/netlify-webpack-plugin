@@ -1,5 +1,5 @@
-import { ISO3166 } from "./iso-3166";
-import { LanguageCodes } from "./language-codes";
+import { ISO3166 } from './iso-3166';
+import { LanguageCodes } from './language-codes';
 
 export interface Conditions {
   /**
@@ -47,21 +47,23 @@ export interface Redirect {
 
 function writeConditions(conditions?: Conditions): string[] {
   if (conditions) {
-    return Object.keys(conditions).map(k => {
-      const key = k as keyof Conditions;
-      if (conditions[key] && conditions[key]!.length > 0) {
-        const capitalized = `${key[0].toUpperCase()}${key.substr(1)}`;
-        return `${capitalized}=${conditions[key]!.join(',')}`;
-      }
-      return null;
-    }).filter((v): v is string => v != null);
+    return Object.keys(conditions)
+      .map((k) => {
+        const key = k as keyof Conditions;
+        if (conditions[key] && conditions[key]!.length > 0) {
+          const capitalized = `${key[0].toUpperCase()}${key.substr(1)}`;
+          return `${capitalized}=${conditions[key]!.join(',')}`;
+        }
+        return null;
+      })
+      .filter((v): v is string => v != null);
   }
   return [];
 }
 
 function writeQueryParams(query?: Record<string, string>): string[] {
   if (query) {
-    return Object.keys(query).map(param => `${param}=${query[param]}`);
+    return Object.keys(query).map((param) => `${param}=${query[param]}`);
   }
   return [];
 }
@@ -73,8 +75,8 @@ export const createRedirectFile = (patterns: Redirect[]): string =>
         from,
         ...writeQueryParams(query),
         to,
-        `${status}${force ? "!" : ""}`,
+        `${status}${force ? '!' : ''}`,
         ...writeConditions(conditions)
-      ].join("    ")
+      ].join('    ')
     )
-    .join("\n");
+    .join('\n');

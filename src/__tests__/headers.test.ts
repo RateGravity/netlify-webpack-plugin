@@ -1,13 +1,13 @@
-import { createHeaderFile } from "../headers";
+import { createHeaderFile } from '../headers';
 
-describe("createHeaderFile", () => {
-  it("creates headers for paths", () => {
+describe('createHeaderFile', () => {
+  it('creates headers for paths', () => {
     const result = createHeaderFile({
       '/*': {
         'x-from': 'netlify-test'
       },
-      "/index.html": {
-        "Cache-Control": "no-cache"
+      '/index.html': {
+        'Cache-Control': 'no-cache'
       }
     });
     expect(result).toBe(
@@ -19,12 +19,12 @@ describe("createHeaderFile", () => {
   });
   it('writes multi-value headers', () => {
     const result = createHeaderFile({
-      "/*": {
-        "cache-control": {
-          "max-age": 0,
-          "no-cache": true,
-          "no-store": true,
-          "must-revalidate": true
+      '/*': {
+        'cache-control': {
+          'max-age': 0,
+          'no-cache': true,
+          'no-store': true,
+          'must-revalidate': true
         }
       }
     });
@@ -34,12 +34,12 @@ describe("createHeaderFile", () => {
   cache-control: no-cache
   cache-control: no-store
   cache-control: must-revalidate`
-    )
+    );
   });
-  it("writes tokenized headers", () => {
+  it('writes tokenized headers', () => {
     const result = createHeaderFile({
-      "/*": {
-        "X-XSS-Protection": [1, { mode: "block" }]
+      '/*': {
+        'X-XSS-Protection': [1, { mode: 'block' }]
       }
     });
     expect(result).toBe(
@@ -47,10 +47,10 @@ describe("createHeaderFile", () => {
   X-XSS-Protection: 1; mode=block`
     );
   });
-  it("writes tokenized simple token", () => {
+  it('writes tokenized simple token', () => {
     const result = createHeaderFile({
-      "/*": {
-        "X-XSS-Protection": [1, [2, 3, 4]]
+      '/*': {
+        'X-XSS-Protection': [1, [2, 3, 4]]
       }
     });
     expect(result).toBe(
@@ -60,12 +60,12 @@ describe("createHeaderFile", () => {
   });
   it('writes multi-valued tokenized headers', () => {
     const result = createHeaderFile({
-      "/*": {
-        "Accept": [
+      '/*': {
+        Accept: [
           ['text/*', { q: 0.3 }],
           ['text/html', { q: 0.7 }],
-          ['text/html', { level: 1}],
-          ['text/html', { level: 2, q: 0.4}],
+          ['text/html', { level: 1 }],
+          ['text/html', { level: 2, q: 0.4 }],
           ['*/*', { q: 0.5 }]
         ]
       }
@@ -78,5 +78,5 @@ describe("createHeaderFile", () => {
   Accept: text/html; level=2; q=0.4
   Accept: */*; q=0.5`
     );
-  })
+  });
 });
