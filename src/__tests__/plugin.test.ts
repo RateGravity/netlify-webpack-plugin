@@ -19,7 +19,7 @@ describe("NetlifyPlugin", () => {
   });
   describe("_headers and _redirects files", () => {
     const plugin = new NetlifyPlugin({
-      headers: [{ for: "/*", values: { "x-from": "netlify-test" } }],
+      headers: { '/*': { "x-from": "netlify-test" } },
       redirects: [{ from: "/*", to: "/index.html" }]
     });
     const c = {
@@ -73,7 +73,7 @@ describe("NetlifyPlugin", () => {
   });
   it("skips _redirects file if not specified", () => {
     const plugin = new NetlifyPlugin({
-      headers: [{ for: "/*", values: { "x-from": "netlify-test" } }]
+      headers: { "/*": { "x-from": "netlify-test" } }
     });
     const c = {
       assets: {}

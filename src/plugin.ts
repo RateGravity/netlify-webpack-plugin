@@ -1,9 +1,9 @@
 import { Compiler } from "webpack";
-import { createHeaderFile, Header } from "./headers";
+import { createHeaderFile, Headers } from "./headers";
 import { createRedirectFile, Redirect } from "./redirects";
 
 export interface NetlifyPluginConfiguration {
-  readonly headers?: Header[];
+  readonly headers?: Headers;
   readonly redirects?: Redirect[];
 }
 

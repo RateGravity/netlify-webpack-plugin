@@ -31,17 +31,15 @@ const formatValue = (value: HeaderValue): string => {
   return `${value}`;
 };
 
-export interface Header {
-  readonly for: string,
-  readonly values: Record<string, HeaderValue>;
-}
+export type Headers = Record<string, Header>;
+export type Header = Record<string, HeaderValue>;
 
-export const createHeaderFile = (headers: Header[]): string =>
-  headers
+export const createHeaderFile = (headers: Headers): string =>
+  Object.keys(headers)
     .map(
-      ({ ["for"]: path, values }) =>
-        `${path}\n${Object.keys(values)
-          .map(key => `  ${key}: ${formatValue(values[key])}`)
+      path =>
+        `${path}\n${Object.keys(headers[path])
+          .map(header => `  ${header}: ${formatValue(headers[path][header])}`)
           .join("\n")}`
     )
     .join("\n");

@@ -2,20 +2,14 @@ import { createHeaderFile } from "../headers";
 
 describe("createHeaderFile", () => {
   it("creates headers for paths", () => {
-    const result = createHeaderFile([
-      {
-        for: "/*",
-        values: {
-          "x-from": "netlify-test"
-        }
+    const result = createHeaderFile({
+      '/*': {
+        'x-from': 'netlify-test'
       },
-      {
-        for: "/index.html",
-        values: {
-          "Cache-Control": "no-cache"
-        }
+      "/index.html": {
+        "Cache-Control": "no-cache"
       }
-    ]);
+    });
     expect(result).toBe(
       `/*
   x-from: netlify-test
@@ -24,14 +18,11 @@ describe("createHeaderFile", () => {
     );
   });
   it("writes multi-value headers", () => {
-    const result = createHeaderFile([
-      {
-        for: "/*",
-        values: {
-          "X-XSS-Protection": [1, { mode: "block" }]
-        }
+    const result = createHeaderFile({
+      "/*": {
+        "X-XSS-Protection": [1, { mode: "block" }]
       }
-    ]);
+    });
     expect(result).toBe(
       `/*
   X-XSS-Protection: 1; mode=block`

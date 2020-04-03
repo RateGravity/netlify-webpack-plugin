@@ -21,14 +21,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin(),
     new NetlifyPlugin({
-      headers: [
-        {
-          'for': '/*',
-          values: {
-            'x-from': 'netlify-test'
-          }
+      headers: {
+      '/*': {
+          'x-from': 'netlify-test'
         }
-      ],
+      },
       redirects: [
         {
           from: '/netlify/*',
