@@ -8,15 +8,15 @@
   "license": "MIT",
   "scripts": {
     "build": "rollup --config rollup.config.js",
-    "test": "jest",
+    "test": "jest --config jest.config.js",
     "webpack": "webpack --config example/webpack.config.js"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
-    "babel-jest": "^22.4.1",
+    "babel-jest": "^25.2.6",
     "html-webpack-plugin": "^4.0.4",
-    "jest": "^22.4.2",
+    "jest": "^25.2.6",
     "rollup": "^2.3.2",
     "rollup-plugin-babel": "^4.4.0",
     "webpack": "^4.42.1",
@@ -26,10 +26,5 @@
     "node-fetch": "^2.1.1",
     "raw-loader": "^0.5.1",
     "tomlify": "^0.2.2"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    }
   }
 }
