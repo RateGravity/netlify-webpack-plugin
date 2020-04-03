@@ -1,4 +1,10 @@
-const formatValue = value => {
+export type HeaderValue =
+  | string
+  | number
+  | HeaderValue[]
+  | { [k: string]: boolean | HeaderValue };
+
+const formatValue = (value: HeaderValue): string => {
   if (value !== null && typeof value === "object") {
     if (Array.isArray(value)) {
       return value
@@ -8,23 +14,29 @@ const formatValue = value => {
     } else {
       return Object.keys(value)
         .map(key => {
-          if (typeof value[key] === "boolean") {
-            if (value[key]) {
+          const v = value[key];
+          if (typeof v === "boolean") {
+            if (v) {
               return key;
             } else {
               return null;
             }
           }
-          return `${key}=${formatValue(value[key])}`;
+          return `${key}=${formatValue(v)}`;
         })
         .filter(v => v != null)
         .join("; ");
     }
   }
-  return value;
+  return `${value}`;
 };
 
-export const createHeaderFile = headers =>
+export interface Header {
+  readonly for: string,
+  readonly values: Record<string, HeaderValue>;
+}
+
+export const createHeaderFile = (headers: Header[]): string =>
   headers
     .map(
       ({ ["for"]: path, values }) =>
