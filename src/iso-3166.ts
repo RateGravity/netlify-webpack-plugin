@@ -1,3 +1,6 @@
+/**
+ * Country Codes ISO-3166
+ */
 export type ISO3166 =
   | "A1"
   | "A2"

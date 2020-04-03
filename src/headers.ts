@@ -7,6 +7,19 @@ type SingleValueHeader = ParameterizedHeaderValue | SimpleHeaderValue;
 type MultiValueHeader =
   | SingleValueHeader[]
   | { [key: string]: SingleValueHeader | boolean | Boolean };
+
+/**
+ * Headers can be either single or multi-valued.
+ * For single valued headers the value can be a string or number, or
+ * it can be an array with the first argument being a string or number, the value of the header
+ * and the second argument being an object containing the tokens with their values.
+ * For the tokens if the value is a boolean is token is name is included if the value is true,
+ * otherwise the value is [tokenName]=[tokenValue].
+ * For Multi-valued headers the value should be an array of the single valued headers, or an object
+ * in the case of an object if the value for a key is a boolean than the header value
+ * will be included conditionally. Otherwise the value will be:
+ * [key]=[value according to single value spec]
+ */
 export type HeaderValue = MultiValueHeader | SingleValueHeader;
 
 function isSimpleHeaderValue(value: HeaderValue): value is SimpleHeaderValue {

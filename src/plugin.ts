@@ -3,7 +3,13 @@ import { createHeaderFile, Headers } from "./headers";
 import { createRedirectFile, Redirect } from "./redirects";
 
 export interface NetlifyPluginConfiguration {
+  /**
+   * The Netlify Headers to Generate
+   */
   readonly headers?: Headers;
+  /**
+   * The Redirect Rules to generate
+   */
   readonly redirects?: Redirect[];
 }
 

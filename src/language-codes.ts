@@ -1,3 +1,6 @@
+/**
+ * Supported Browser Language Codes
+ */
 export type LanguageCodes =
   | "af"
   | "hr"

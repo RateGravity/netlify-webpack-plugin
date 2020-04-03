@@ -2,17 +2,46 @@ import { ISO3166 } from "./iso-3166";
 import { LanguageCodes } from "./language-codes";
 
 export interface Conditions {
+  /**
+   * Matches browsers requested language
+   */
   readonly language?: LanguageCodes[];
+  /**
+   * Matches browsers advertized country
+   */
   readonly country?: ISO3166[];
+  /**
+   * Matches users logged in roles
+   */
   readonly role?: string[];
 }
 
 export interface Redirect {
+  /**
+   * URL from which to redirect
+   */
   readonly from: string;
+  /**
+   * URL to redirect to
+   */
   readonly to: string;
+  /**
+   * status number for the redirect
+   * status 200 is a proxy
+   */
   readonly status?: number;
-  readonly force?: Boolean;
+  /**
+   * if true force the redirect even if
+   * the value is present
+   */
+  readonly force?: boolean;
+  /**
+   * Query strings to match, and capture
+   */
   readonly query?: Record<string, string>;
+  /**
+   * Conditions to check for
+   */
   readonly conditions?: Conditions;
 }
 
