@@ -17,14 +17,10 @@
     "babel-jest": "^25.2.6",
     "html-webpack-plugin": "^4.0.4",
     "jest": "^25.2.6",
+    "raw-loader": "^0.5.1",
     "rollup": "^2.3.2",
     "rollup-plugin-babel": "^4.4.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
-  },
-  "dependencies": {
-    "node-fetch": "^2.1.1",
-    "raw-loader": "^0.5.1",
-    "tomlify": "^0.2.2"
   }
 }

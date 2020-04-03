@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const NetlifyPlugin = require('../dist/plugin');
+const { NetlifyPlugin } = require('../dist/plugin');
 
 module.exports = {
   entry: path.resolve(__dirname,'./index.js'),
