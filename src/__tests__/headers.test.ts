@@ -47,6 +47,17 @@ describe("createHeaderFile", () => {
   X-XSS-Protection: 1; mode=block`
     );
   });
+  it("writes tokenized simple token", () => {
+    const result = createHeaderFile({
+      "/*": {
+        "X-XSS-Protection": [1, [2, 3, 4]]
+      }
+    });
+    expect(result).toBe(
+      `/*
+  X-XSS-Protection: 1; 2; 3; 4`
+    );
+  });
   it('writes multi-valued tokenized headers', () => {
     const result = createHeaderFile({
       "/*": {

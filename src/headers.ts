@@ -1,7 +1,10 @@
 type SimpleHeaderValue = string | String | number | Number;
 type ParameterizedHeaderValue = [
   SimpleHeaderValue,
-  { [token: string]: SimpleHeaderValue | boolean | Boolean }
+  (
+    | { [token: string]: SimpleHeaderValue | boolean | Boolean }
+    | SimpleHeaderValue[]
+  )
 ];
 type SingleValueHeader = ParameterizedHeaderValue | SimpleHeaderValue;
 type MultiValueHeader =
@@ -12,9 +15,9 @@ type MultiValueHeader =
  * Headers can be either single or multi-valued.
  * For single valued headers the value can be a string or number, or
  * it can be an array with the first argument being a string or number, the value of the header
- * and the second argument being an object containing the tokens with their values.
+ * and the second argument being an object or array containing the tokens with their values.
  * For the tokens if the value is a boolean is token is name is included if the value is true,
- * otherwise the value is [tokenName]=[tokenValue].
+ * otherwise the value is [tokenName]=[tokenValue]; . If tokens is an array tokens are included as [token];
  * For Multi-valued headers the value should be an array of the single valued headers, or an object
  * in the case of an object if the value for a key is a boolean than the header value
  * will be included conditionally. Otherwise the value will be:
@@ -45,6 +48,9 @@ function isParameterizedHeaderValue(
       tokens !== null &&
       typeof tokens === "object"
     ) {
+      if (Array.isArray(tokens)) {
+        return tokens.every(v => isSimpleHeaderValue(v));
+      }
       return Object.values(tokens).every(
         v => isBoolean(v) || isSimpleHeaderValue(v)
       );
@@ -56,16 +62,19 @@ function isParameterizedHeaderValue(
 function writeParameterizedHeaderValue(
   value: ParameterizedHeaderValue
 ): string {
-  const tokenString = Object.entries(value[1])
-    .map(([key, value]) => {
-      if (isBoolean(value)) {
-        return value ? key : null;
-      }
-      return `${key}=${value}`;
-    })
-    .filter(v => v != null)
-    .join("; ");
-  return `${value[0]}${tokenString ? `; ${tokenString}` : ""}`;
+  const tokenStrings = Array.isArray(value[1])
+    ? value[1].map(v => `${v}`)
+    : Object.entries(value[1])
+        .map(([key, v]) => {
+          if (isBoolean(v)) {
+            return v ? key : null;
+          }
+          return `${key}=${v}`;
+        })
+        .filter(v => v != null);
+  return `${value[0]}${
+    tokenStrings.length > 0 ? `; ${tokenStrings.join("; ")}` : ""
+  }`;
 }
 
 function isSingleValueHeader(value: HeaderValue): value is SingleValueHeader {
