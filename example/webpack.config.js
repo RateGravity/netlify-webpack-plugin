@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const NetlifyPlugin = require('../dist/plugin');
+const { NetlifyPlugin } = require('..');
 
 module.exports = {
   entry: path.resolve(__dirname,'./index.js'),
@@ -18,21 +18,14 @@ module.exports = {
       },
     ]
   },
-  devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
-    port: 8000
-  },
   plugins: [
     new HtmlWebpackPlugin(),
     new NetlifyPlugin({
-      headers: [
-        {
-          'for': '/*',
-          values: {
-            'x-from': 'netlify-test'
-          }
+      headers: {
+      '/*': {
+          'x-from': 'netlify-test'
         }
-      ],
+      },
       redirects: [
         {
           from: '/netlify/*',

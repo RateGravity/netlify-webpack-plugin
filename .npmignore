@@ -1,9 +1,13 @@
 # build files
 .babelrc
 .nvmrc
-gulpfile.js
+.travis.yml
+jest.config.js
+rollup.config.js
+tsconfig.build.json
+tsconfig.json
 yarn.lock
 
 # non-compiled src
 src/
-__tests__/
+example/
