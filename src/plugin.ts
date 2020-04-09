@@ -1,4 +1,4 @@
-import { Compiler } from 'webpack';
+import { compilation as webpackCompilation, Compiler } from 'webpack';
 import { createHeaderFile, Headers } from './headers';
 import { createRedirectFile, Redirect } from './redirects';
 
@@ -13,6 +13,25 @@ export interface NetlifyPluginConfiguration {
   readonly redirects?: Redirect[];
 }
 
+function tapEmit(
+  compiler: Compiler
+): (name: string, syncHook: (compilation: webpackCompilation.Compilation) => void) => void {
+  if ('hooks' in compiler) {
+    return compiler.hooks.emit.tap;
+  } else {
+    // use the the legacy api if that's what is provided.
+    return (_: string, syncHook: (compilation: webpackCompilation.Compilation) => void) => {
+      (compiler as any).plugin(
+        'emit',
+        (compilation: webpackCompilation.Compilation, callback: () => void) => {
+          syncHook(compilation);
+          callback();
+        }
+      );
+    };
+  }
+}
+
 // Given a configuration writes it out as _headers and _redirects files
 export class NetlifyPlugin {
   private readonly configuration: NetlifyPluginConfiguration;
@@ -22,7 +41,7 @@ export class NetlifyPlugin {
   }
 
   public apply(compiler: Compiler): void {
-    compiler.hooks.emit.tap('NetlifyPlugin', (compilation) => {
+    tapEmit(compiler)('NetlifyPlugin', (compilation) => {
       if (this.configuration.headers) {
         const headersFile = createHeaderFile(this.configuration.headers);
         compilation.assets._headers = {
