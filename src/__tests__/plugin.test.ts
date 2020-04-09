@@ -117,4 +117,12 @@ describe('NetlifyPlugin', () => {
     plugin.apply(compiler);
     expect(c.assets).toEqual({});
   });
+  it('falls back to plugin method if tap is not defined', () => {
+    const plugin = new NetlifyPlugin({});
+    const compiler: any = {
+      plugin: jest.fn()
+    };
+    plugin.apply(compiler);
+    expect(compiler.plugin).toHaveBeenCalledWith('emit', expect.any(Function));
+  });
 });
