@@ -10,6 +10,27 @@ describe('integration with webpack api', () => {
     inputFs.writeFileSync('/input/index.js', `document.write('Hello World');`);
   });
 
+  it('outputs nothing on an empty config', (done) => {
+    expect.assertions(3);
+
+    const fs = new MemoryFileSystem();
+    const compiler = webpack({
+      entry: '/input/index.js',
+      output: {
+        path: '/dist'
+      },
+      plugins: [new NetlifyPlugin({})]
+    });
+    compiler.inputFileSystem = inputFs;
+    compiler.outputFileSystem = fs;
+
+    compiler.run((err) => {
+      expect(err).toBeFalsy();
+      expect(fs.existsSync('/dist/_headers')).toBe(false);
+      expect(fs.existsSync('/dist/_redirects')).toBe(false);
+      done();
+    });
+  });
   describe('_headers and _redirects files', () => {
     const fs = new MemoryFileSystem();
     const compiler = webpack({

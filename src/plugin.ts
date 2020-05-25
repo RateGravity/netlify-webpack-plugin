@@ -17,7 +17,8 @@ function tapEmit(
   compiler: Compiler
 ): (name: string, syncHook: (compilation: webpackCompilation.Compilation) => void) => void {
   if ('hooks' in compiler) {
-    return compiler.hooks.emit.tap;
+    return (name: string, syncHook: (compilation: webpackCompilation.Compilation) => void) =>
+      compiler.hooks.emit.tap(name, syncHook);
   } else {
     // use the the legacy api if that's what is provided.
     return (_: string, syncHook: (compilation: webpackCompilation.Compilation) => void) => {
