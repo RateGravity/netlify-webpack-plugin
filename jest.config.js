@@ -9,5 +9,6 @@ module.exports = {
   testMatch: ['**/__tests__/**/*.test.ts'],
   transform: {
     '.ts$': 'babel-jest'
-  }
+  },
+  testEnvironment: 'node'
 };
