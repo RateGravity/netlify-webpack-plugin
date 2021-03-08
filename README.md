@@ -20,7 +20,7 @@ npm install --save-dev netlify-webpack plugin
 The netlify plugin should be added to the plugins section of your webpack config.
 
 ```js
-const { NetlifyPlugin } = require('netlify-wepback-plugin');
+const { NetlifyPlugin } = require('netlify-webpack-plugin');
 
 module.exports = {
   // webpack config goes here.
