@@ -74,7 +74,10 @@ function writeSingleValueHeader(header: string, value: SingleValueHeader): strin
 function isMultiValueHeader(value: HeaderValue): value is MultiValueHeader {
   if (value != null && typeof value === 'object') {
     if (Array.isArray(value)) {
-      return value.every((v: HeaderValue) => isSingleValueHeader(v));
+      return (
+        !isParameterizedHeaderValue(value) &&
+        value.every((v: HeaderValue) => isSingleValueHeader(v))
+      );
     } else {
       return Object.values(value).every((v) => isBoolean(v) || isSingleValueHeader(v));
     }
