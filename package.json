@@ -1,5 +1,5 @@
 {
-  "name": "netlify-webpack-plugin",
+  "name": "@rategravity/netlify-webpack-plugin",
   "version": "0.0.1",
   "description": "Webpack Plugin for Netlify",
   "main": "dist/index.js",
@@ -54,5 +54,6 @@
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "private": true
 }
