@@ -20,7 +20,9 @@
     "headers",
     "_redirects",
     "_headers",
-    "plugin"
+    "plugin",
+    "edge functions",
+    "scripts"
   ],
   "repository": "https://github.com/RateGravity/netlify-webpack-plugin.git",
   "author": "RateGravity <dev@rategravity.com>",
@@ -30,7 +32,7 @@
     "deploy": "node ./scripts/deploy.js",
     "test": "jest --config jest.config.js",
     "type-check": "tsc --noEmit",
-    "webpack": "webpack --config example/webpack.config.js",
+    "webpack": "rm -rf example/dist && webpack --config example/webpack.config.js",
     "format": "prettier --write src/**/*.ts",
     "lint": "tslint --project ."
   },
@@ -38,6 +40,7 @@
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-typescript": "^7.9.0",
+    "@netlify/functions": "^1.6.0",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "@types/jest": "^25.1.5",
     "@types/memory-fs": "^0.3.2",

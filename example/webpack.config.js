@@ -42,7 +42,9 @@ module.exports = {
           to: '/index.html',
           status: 200
         }
-      ]
+      ],
+      functions: [path.join(__dirname, 'src/functions/example.ts')],
+      edgeFunctions: [path.join(__dirname, 'src/edge-functions/example.ts')]
     })
   ]
 };

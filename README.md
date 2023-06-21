@@ -169,3 +169,31 @@ This would produce the following header
 ```
 Dummy-Example: html=load; lazy; progressive: no, css=skip
 ```
+
+### Functions and Edge Functions
+
+The webpack plugin also has rudimentary support for installing [functions](https://docs.netlify.com/functions/overview/) and [edge functions](https://docs.netlify.com/edge-functions/overview/) into the transpiled site. It does this simply by copying the requested files into the appropriate folders. For example:
+
+```ts
+new NetlifyPlugin({
+  functions: ['src/hello-world.ts', 'src/goodnight-moon.ts'],
+  edgeFunctions: [
+    'src/edge/nonce-adder.ts',
+    { path: 'src/edge/email-verification.ts', name: 'spam-filter' }
+  ]
+});
+```
+
+... would install the following files into the output directory:
+
+```
+  /netlify
+    /functions
+      - hello-world.ts
+      - goodnight-moon.ts
+    /edge-functions
+      - nonce-adder.ts
+      - spam-filter.ts
+```
+
+No transpilation is done on these files--they will be loaded exactly as-is.
