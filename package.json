@@ -6,6 +6,8 @@
   "module": "dist/index.mjs",
   "typings": "dist/index.d.ts",
   "files": [
+    "README.md",
+    "LICENSE",
     "dist"
   ],
   "engines": {
@@ -25,6 +27,7 @@
   "license": "MIT",
   "scripts": {
     "build": "rollup --config rollup.config.js && tsc --build tsconfig.build.json",
+    "deploy": "node ./scripts/deploy.js",
     "test": "jest --config jest.config.js",
     "type-check": "tsc --noEmit",
     "webpack": "webpack --config example/webpack.config.js",
