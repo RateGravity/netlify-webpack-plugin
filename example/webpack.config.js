@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { NetlifyPlugin } = require('..');
 
 module.exports = {
-  entry: path.resolve(__dirname,'./index.js'),
+  entry: path.resolve(__dirname, './index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[hash].js',
@@ -15,14 +15,14 @@ module.exports = {
       {
         test: /\.js$/,
         use: 'raw-loader'
-      },
+      }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin(),
     new NetlifyPlugin({
       headers: {
-      '/*': {
+        '/*': {
           'x-from': 'netlify-test'
         }
       },
@@ -45,4 +45,4 @@ module.exports = {
       ]
     })
   ]
-}
+};

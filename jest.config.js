@@ -5,7 +5,7 @@ module.exports = {
   coveragePathIgnorePatterns: ['__(.+?)__'],
   verbose: true,
   rootDir: join(__dirname, './src'),
-  moduleFileExtensions: ['js','ts'],
+  moduleFileExtensions: ['js', 'ts'],
   testMatch: ['**/__tests__/**/*.test.ts'],
   transform: {
     '.ts$': 'babel-jest'
