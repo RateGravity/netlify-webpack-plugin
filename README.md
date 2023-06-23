@@ -172,7 +172,9 @@ Dummy-Example: html=load; lazy; progressive: no, css=skip
 
 ### Functions and Edge Functions
 
-The webpack plugin also has rudimentary support for installing [functions](https://docs.netlify.com/functions/overview/) and [edge functions](https://docs.netlify.com/edge-functions/overview/) into the transpiled site. It does this simply by copying the requested files into the appropriate folders. For example:
+The webpack plugin also has rudimentary support for installing [functions](https://docs.netlify.com/functions/overview/) and [edge functions](https://docs.netlify.com/edge-functions/overview/) into the transpiled site. It does this simply by copying the requested files into the appropriate folders. No transpilation is done on these files--they will be loaded exactly as-is.
+
+For example:
 
 ```ts
 new NetlifyPlugin({
@@ -196,4 +198,14 @@ new NetlifyPlugin({
       - spam-filter.ts
 ```
 
-No transpilation is done on these files--they will be loaded exactly as-is.
+Please note that because these files are being placed in your webpack output directory, you will likely need
+to update your `netlify.toml` file to point to this directory. For example:
+
+```toml
+[build]
+  publish = "dist/"
+  edge_functions = "dist/netlify/edge-functions"
+  functions = "dist/netlify/functions"
+```
+
+
