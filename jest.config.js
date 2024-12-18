@@ -1,6 +1,7 @@
 const { join } = require('path');
 
 module.exports = {
+  globalSetup: join(__dirname, './config/jest.setup.ts'),
   collectCoverageFrom: ['**/*.{t,j}s?(x)'],
   coveragePathIgnorePatterns: ['__(.+?)__'],
   verbose: true,
