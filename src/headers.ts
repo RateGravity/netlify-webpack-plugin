@@ -7,7 +7,7 @@ type SingleValueHeader = ParameterizedHeaderValue | SimpleHeaderValue;
 type MultiValueHeader = SingleValueHeader[] | { [key: string]: SingleValueHeader | boolean };
 
 /**
- * Headers can be either single or multi-valued.
+ * Headers can be single, multi-valued, or JSON objects.
  * For single valued headers the value can be a string or number, or
  * it can be an array with the first argument being a string or number, the value of the header
  * and the second argument being an object or array containing the tokens with their values.
@@ -16,11 +16,11 @@ type MultiValueHeader = SingleValueHeader[] | { [key: string]: SingleValueHeader
  * For Multi-valued headers the value should be an array of the single valued headers, or an object
  * in the case of an object if the value for a key is a boolean than the header value
  * will be included conditionally. Otherwise the value will be:
- * [key]=[value according to single value spec]
+ * [key]=[value according to single value spec or json]
  */
-export type HeaderValue = MultiValueHeader | SingleValueHeader;
+export type HeaderValue = MultiValueHeader | SingleValueHeader | object;
 
-function isSimpleHeaderValue(value: HeaderValue): value is SimpleHeaderValue {
+function isSimpleHeaderValue(value: unknown): value is SimpleHeaderValue {
   return (
     typeof value === 'string' ||
     typeof value === 'number' ||
@@ -106,6 +106,9 @@ function writeHeaders(header: string, value: HeaderValue): string[] {
       return [writeSingleValueHeader(header, value)];
     } else if (isMultiValueHeader(value)) {
       return writeMultiValueHeader(header, value);
+    } else {
+      // Assume a JSON object
+      return [`${header}: ${JSON.stringify(value)}`];
     }
   }
   return [];
