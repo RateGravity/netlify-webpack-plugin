@@ -79,4 +79,20 @@ describe('createHeaderFile', () => {
   Accept: */*; q=0.5`
     );
   });
+  it('writes JSON-valued headers', () => {
+    const SENTRY_CSP_REPORTING_ENDPOINT =
+      'https://bloo.ingest.sentry.io/api/blah/security/?sentry_key=blip';
+
+    const result = createHeaderFile({
+      '/*': {
+        'Report-To': {
+          group: 'sentry-endpoints',
+          endpoints: [{ url: SENTRY_CSP_REPORTING_ENDPOINT }]
+        }
+      }
+    });
+
+    expect(result).toBe(`/*
+Report-To: {\"group\":\"sentry-endpoints\",\"endpoints\":[{\"url\":\"https://bloo.ingest.sentry.io/api/blah/security/?sentry_key=blip\"}]}`);
+  });
 });
