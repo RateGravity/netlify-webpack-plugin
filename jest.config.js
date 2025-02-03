@@ -8,8 +8,6 @@ module.exports = {
   rootDir: join(__dirname, './src'),
   moduleFileExtensions: ['js', 'ts'],
   testMatch: ['**/__tests__/**/*.test.ts'],
-  transform: {
-    '.ts$': 'babel-jest'
-  },
+  transform: { '[jt]sx?$': ['babel-jest', { rootMode: 'upward' }] },
   testEnvironment: 'node'
 };
