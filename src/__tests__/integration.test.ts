@@ -13,7 +13,7 @@ describe('integration with webpack api', () => {
   it('outputs nothing on an empty config', (done) => {
     expect.assertions(3);
 
-    const fs = new MemoryFileSystem();
+    const outputFs = new MemoryFileSystem();
     const compiler = webpack({
       entry: '/input/index.js',
       output: {
@@ -22,12 +22,12 @@ describe('integration with webpack api', () => {
       plugins: [new NetlifyPlugin({})]
     });
     compiler.inputFileSystem = inputFs;
-    compiler.outputFileSystem = fs;
+    compiler.outputFileSystem = outputFs;
 
     compiler.run((err) => {
       expect(err).toBeFalsy();
-      expect(fs.existsSync('/dist/_headers')).toBe(false);
-      expect(fs.existsSync('/dist/_redirects')).toBe(false);
+      expect(outputFs.existsSync('/dist/_headers')).toBe(false);
+      expect(outputFs.existsSync('/dist/_redirects')).toBe(false);
       done();
     });
   });
@@ -63,7 +63,7 @@ describe('integration with webpack api', () => {
   });
 
   describe('functions and edge functions', () => {
-    const fs = new MemoryFileSystem();
+    const outputFs = new MemoryFileSystem();
     const compiler = webpack({
       entry: '/input/index.js',
       output: {
@@ -79,7 +79,7 @@ describe('integration with webpack api', () => {
         })
       ]
     });
-    compiler.outputFileSystem = fs;
+    compiler.outputFileSystem = outputFs;
     compiler.inputFileSystem = inputFs;
 
     beforeAll((done) => {
@@ -101,7 +101,7 @@ describe('integration with webpack api', () => {
       ['/src/edge/nonce-adder.ts', '/dist/netlify/edge-functions/nonce-adder.ts'],
       ['/src/edge/email-verification.ts', '/dist/netlify/edge-functions/spam-filter.ts']
     ])('wrote %s to %s', (src, dest) => {
-      expect(fs.readFileSync(dest).toString()).toBe(inputFs.readFileSync(src).toString());
+      expect(outputFs.readFileSync(dest).toString()).toBe(inputFs.readFileSync(src).toString());
     });
   });
 });

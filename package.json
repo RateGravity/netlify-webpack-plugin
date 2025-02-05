@@ -43,7 +43,7 @@
     "@netlify/functions": "^1.6.0",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "@types/jest": "^29.5.14",
-    "@types/memory-fs": "^0.3.2",
+    "@types/memory-fs": "^0.3.7",
     "@types/node": "^20",
     "babel-jest": "^29.7.0",
     "html-webpack-plugin": "^4.0.4",
